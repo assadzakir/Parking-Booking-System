@@ -1,0 +1,113 @@
+<!--<md-toolbar color="warn">-->
+  <!--Campus Recruitment System-->
+<!--</md-toolbar>-->
+  <!--<img md-card-image style="height: 300px" [src]=' (parking$ | async)?.imageUrl'>-->
+<md-progress-bar *ngIf="showLoader" color="primary" mode="query"></md-progress-bar>
+<md-card>
+    <hr>
+
+    <md-input-container>
+    <h5> Select Date: </h5>
+    <input type="date" md-input #myDate [value]="parkingObj.parkingDate | date:'yyyy-MM-dd'"
+           (input)="parkingObj.userdate=parseDate($event.target.value)"/>
+  </md-input-container>
+
+  <br/>
+  <br/>
+  <br/>
+
+  <md-select placeholder="Select Start Time" [(ngModel)]="parkingObj.startTime">
+    <md-option value="8AM">8AM</md-option>
+    <md-option value="9AM">9AM</md-option>
+    <md-option value="10AM">10AM</md-option>
+    <md-option value="11AM">11AM</md-option>
+    <md-option value="12PM">12PM</md-option>
+    <md-option value="1PM">1PM</md-option>
+    <md-option value="2PM">2PM</md-option>
+    <md-option value="3PM">3PM</md-option>
+    <md-option value="4PM">4PM</md-option>
+    <md-option value="5PM">5PM</md-option>
+    <md-option value="6PM">6PM</md-option>
+    <md-option value="7PM">7PM</md-option>
+    <md-option value="8PM">8PM</md-option>
+    <md-option value="9PM">9PM</md-option>
+    <md-option value="10PM">10PM</md-option>
+    <md-option value="11PM">11PM</md-option>
+    <md-option value="12PM">12AM</md-option>
+  </md-select>
+
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+
+  <md-select placeholder="Select Hours" [(ngModel)]="parkingObj.parkingHrs">
+    <md-option value="1">1</md-option>
+    <md-option value="2">2</md-option>
+    <md-option value="3">3</md-option>
+    <md-option value="4">4</md-option>
+    <md-option value="5">5</md-option>
+    <md-option value="6">6</md-option>
+    <md-option value="7">7</md-option>
+    <md-option value="8">8</md-option>
+    <md-option value="9">9</md-option>
+    <md-option value="10">10</md-option>
+    <md-option value="11">11</md-option>
+    <md-option value="12">12</md-option>
+  </md-select>
+  <md-card-actions class="text-right padding-right-20 padding-bottom-10">
+    <span class="example-spacer"></span>
+    <button md-button md-raised-button color="primary" (click)="saveReservation()">Select Slot</button>
+  </md-card-actions>
+</md-card>
+<md-card>
+<md-tab-group>
+  <md-tab>
+    <template md-tab-label>
+      <strong>Parking Slod</strong>
+    </template>
+    <h1>Best pasta restaurants</h1>
+    <div *ngFor="let slod of slods">
+      <span *ngIf="!slod.bookBy" (click)="selectSlot(slod)"> <img style="height: 100px; width: 100px" src="../../../images/AvailableNow.png" alt=""></span>
+      <span *ngIf="slod.bookBy"> <img style="height: 100px; width: 100px" src="../../../images/Not_Available.png" alt=""></span>
+    </div>
+
+  </md-tab>
+  <md-tab>
+    <template md-tab-label>
+     <strong>View Reservation</strong>
+    </template>
+    <h1>Terrible sushi restaurants</h1>
+    <p>...</p>
+  </md-tab>
+  <md-tab>
+    <template md-tab-label>
+      <strong>Cancel Reservation</strong>
+    </template>
+
+      <md-card-content>
+        <md-list>
+          <div *ngFor="let slotInfo of myReservedParkingList">
+            <md-list-item>
+              <h1 md-line> <b>Location Map:  {{slotInfo.location}} </b> </h1>
+              <h1 md-line> <b>Reservation Date :  {{slotInfo.slot.parkingData}} </b> </h1>
+              <h3 md-line> <b>Reservation Start Time: </b>{{slotInfo.slot.startTime }} </h3>
+              <p md-line>
+                <span> <b>Reservation Hours: </b> {{slotInfo.slot.parkingHrs}} </span>
+              </p>
+              <button md-button md-raised-button color="warn" (click)="cancelReservation(slotInfo)" style="position: absolute; right: 23px;"> Cancel</button>
+            </md-list-item>
+            <md-divider></md-divider>
+          </div>
+        </md-list>
+      </md-card-content>
+  </md-tab>
+  <md-tab>
+    <template md-tab-label>
+      <strong>Feedback</strong>
+    </template>
+    <h1>Terrible sushi restaurants</h1>
+    <p>...</p>
+  </md-tab>
+</md-tab-group>
+</md-card>

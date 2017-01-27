@@ -1,0 +1,19 @@
+        <md-toolbar color="warn">
+            <span routerLink="/login"> Parking Booking System</span>
+            <span class="example-fill-remaining-space"></span>
+            <span *ngIf="!(af.auth | async)" routerLink="/login">Login</span>
+            &nbsp;
+            &nbsp;
+            &nbsp;
+            <span *ngIf="!(af.auth | async)" routerLink="/signup">Sign up</span>
+            &nbsp;
+            &nbsp;
+            &nbsp;
+            <span *ngIf="af.auth | async" routerLink="/parking">Parking </span>
+            &nbsp;
+            &nbsp;
+            &nbsp;
+            <span *ngIf="af.auth | async" (click)="logout()">Log out</span>
+            &nbsp; &nbsp; &nbsp;
+        </md-toolbar>
+        <router-outlet class="main"></router-outlet>

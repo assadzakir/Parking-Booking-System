@@ -1,0 +1,32 @@
+<!--<md-toolbar color="warn">-->
+  <!--Parking Booking System-->
+<!--</md-toolbar>-->
+
+<md-card class="signup-container">
+  <md-card-title>Signup</md-card-title>
+  <md-card-content>
+
+    <div>
+      <md-input-container>
+        <input md-input [(ngModel)]="userObj.fullName" type="text" placeholder="Enter Full Name">
+      </md-input-container>
+    </div>
+
+    <div>
+      <md-input-container>
+        <input md-input [(ngModel)]="userObj.email" type="text" placeholder="Enter Email">
+      </md-input-container>
+    </div>
+
+    <div>
+      <md-input-container>
+        <input md-input [(ngModel)]="userObj.password" type="password" placeholder="Create Password">
+      </md-input-container>
+    </div>
+  </md-card-content>
+
+  <button md-button md-raised-button color="warn" [routerLink]="['/login']">Cancel</button>
+  <button md-button md-raised-button color="accent" (click)="signupUser()">Sign up</button>
+
+</md-card>
+

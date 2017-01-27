@@ -1,0 +1,31 @@
+<!--<md-toolbar color="warn">-->
+ <!--Parking Area-->
+<!--</md-toolbar>-->
+<!--<md-card  >-->
+  <!--<md-card-title> </md-card-title>-->
+  <!--<md-card-content *ngFor="let parking of (parking$ | async)">-->
+
+    <!--{{parking.name}}{{parking.$key}}-->
+    <!--<img md-card-image style="height: 177px;width: 266px" [src]='parking.imageUrl'>-->
+  <!--</md-card-content>-->
+<!--</md-card>-->
+
+<!--<md-progress-bar *ngIf="showLoader" color="primary" mode="query"></md-progress-bar>-->
+<md-progress-bar *ngIf="showLoader" color="primary" mode="query"></md-progress-bar>
+<md-grid-list cols="2" style="background-color: #cfd8dc">
+  <md-grid-tile *ngFor="let parking of (parking$ | async)" [routerLink]="parking.name">
+    <md-card >
+      <md-card-header>
+        <img md-card-avatar [src]='parking.imageUrl'>
+        <md-card-title> {{parking.name}}</md-card-title>
+        <!--<md-card-subtitle>Header subtitle</md-card-subtitle>-->
+      </md-card-header>
+      <img md-card-image style="height: 300px;width: 600px" [src]='parking.imageUrl'>
+      <!--<md-card-content *ngFor="let item of recipe.steps">-->
+      <!--<p>{{item}}</p>-->
+      <!--</md-card-content>-->
+      <hr>
+    </md-card>
+  </md-grid-tile>
+
+</md-grid-list>
