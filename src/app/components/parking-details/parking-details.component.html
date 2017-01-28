@@ -4,8 +4,7 @@
   <!--<img md-card-image style="height: 300px" [src]=' (parking$ | async)?.imageUrl'>-->
 <md-progress-bar *ngIf="showLoader" color="primary" mode="query"></md-progress-bar>
 <md-card>
-    <hr>
-
+  <md-card-content>
     <md-input-container>
     <h5> Select Date: </h5>
     <input type="date" md-input #myDate [value]="parkingObj.parkingDate | date:'yyyy-MM-dd'"
@@ -57,8 +56,9 @@
   </md-select>
   <md-card-actions class="text-right padding-right-20 padding-bottom-10">
     <span class="example-spacer"></span>
-    <button md-button md-raised-button color="primary" (click)="saveReservation()">Select Slot</button>
+    <button md-button md-raised-button color="warn" (click)="saveReservation()">Select Slot</button>
   </md-card-actions>
+  </md-card-content>
 </md-card>
 <md-card>
 <md-tab-group>
@@ -66,19 +66,39 @@
     <template md-tab-label>
       <strong>Parking Slod</strong>
     </template>
-    <h1>Best pasta restaurants</h1>
-    <div *ngFor="let slod of slods">
-      <span *ngIf="!slod.bookBy" (click)="selectSlot(slod)"> <img style="height: 100px; width: 100px" src="../../../images/AvailableNow.png" alt=""></span>
-      <span *ngIf="slod.bookBy"> <img style="height: 100px; width: 100px" src="../../../images/Not_Available.png" alt=""></span>
-    </div>
+    <!--<h1>Best pasta restaurants</h1>-->
+    <md-grid-list cols="4" style="background-color: #cfd8dc">
+      <md-grid-tile *ngFor="let slod of slods let ind=index">
+        <md-card [style.backgroundColor]="slod.bookBy || slod.selectable ? 'red':'white'">
+            <span  *ngIf="!slod.bookBy" (click)="selectSlot(slod,ind)"> <img style="height: 100px; width: 100px" src="/images/AvailableNow.png" alt=""></span>
+            <span *ngIf="slod.bookBy"> <img style="height: 100px; width: 100px" src="/images/Not_Available.png" alt=""></span>
+            <!--<md-card-subtitle>Header subtitle</md-card-subtitle>-->
+        </md-card>
+      </md-grid-tile>
+
+    </md-grid-list>
 
   </md-tab>
   <md-tab>
     <template md-tab-label>
      <strong>View Reservation</strong>
     </template>
-    <h1>Terrible sushi restaurants</h1>
-    <p>...</p>
+    <md-card-content>
+      <md-list>
+        <img md-card-image style="height: 300px" [src]=' (parking$ | async)?.imageUrl'>
+        <div *ngFor="let slotInfo of myRes" >
+          <md-list-item *ngIf="slotInfo.bookBy">
+            <h1 md-line> <b>Location Map:  {{(parking$ | async)?.name}} </b> </h1>
+            <h1 md-line> <b>Reservation Date :  {{slotInfo.parkingDate}} </b> </h1>
+            <h3 md-line> <b>Reservation Start Time: </b>{{slotInfo.startTime }} </h3>
+            <p md-line>
+              <span> <b>Reservation Hours: </b> {{slotInfo.parkingHrs}} </span>
+            </p>
+          </md-list-item>
+          <md-divider></md-divider>
+        </div>
+      </md-list>
+    </md-card-content>
   </md-tab>
   <md-tab>
     <template md-tab-label>
@@ -87,13 +107,14 @@
 
       <md-card-content>
         <md-list>
-          <div *ngFor="let slotInfo of myReservedParkingList">
-            <md-list-item>
-              <h1 md-line> <b>Location Map:  {{slotInfo.location}} </b> </h1>
-              <h1 md-line> <b>Reservation Date :  {{slotInfo.slot.parkingData}} </b> </h1>
-              <h3 md-line> <b>Reservation Start Time: </b>{{slotInfo.slot.startTime }} </h3>
+          <img md-card-image style="height: 300px" [src]=' (parking$ | async)?.imageUrl'>
+          <div *ngFor="let slotInfo of myRes" >
+            <md-list-item *ngIf="slotInfo.bookBy">
+              <h1 md-line> <b>Location Map:  {{(parking$ | async)?.name}} </b> </h1>
+              <h1 md-line> <b>Reservation Date :  {{slotInfo.parkingDate}} </b> </h1>
+              <h3 md-line> <b>Reservation Start Time: </b>{{slotInfo.startTime }} </h3>
               <p md-line>
-                <span> <b>Reservation Hours: </b> {{slotInfo.slot.parkingHrs}} </span>
+                <span> <b>Reservation Hours: </b> {{slotInfo.parkingHrs}} </span>
               </p>
               <button md-button md-raised-button color="warn" (click)="cancelReservation(slotInfo)" style="position: absolute; right: 23px;"> Cancel</button>
             </md-list-item>
@@ -102,12 +123,22 @@
         </md-list>
       </md-card-content>
   </md-tab>
+
   <md-tab>
     <template md-tab-label>
-      <strong>Feedback</strong>
+      Feedback
     </template>
-    <h1>Terrible sushi restaurants</h1>
-    <p>...</p>
+
+    <md-card>
+      <md-card-title> Send Feedback</md-card-title>
+      <textarea [(ngModel)]="feedbackMsg" class="feedback-textarea"></textarea>
+      <br/>
+      <br/>
+      <button md-button md-raised-button color="warn" (click)="sendFeedback()">Send Feedback</button>
+      <md-card-content>
+
+      </md-card-content>
+    </md-card>
   </md-tab>
 </md-tab-group>
 </md-card>

@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AppService} from "../../services/app-service";
 import {ActivatedRoute} from "@angular/router";
 import {AngularFire} from "angularfire2";
+import {isNullOrUndefined} from "util";
 
 @Component({
     selector: 'app-parking-details',
@@ -9,10 +10,13 @@ import {AngularFire} from "angularfire2";
 })
 export class ParkingDetailsComponent implements OnInit {
 
-    slods: any;
+    slods: Array<any>;
     parking$: any;
     parkingId: string;
-    selectedSlot: any;
+    selectedSlot :any= {
+        locationNum: '',
+        slotInd: ''
+    };
     showLoader = true;
     slotLink: any;
     userAuth: any;
@@ -22,29 +26,57 @@ export class ParkingDetailsComponent implements OnInit {
         startTime: "",
         parkingHrs: "",
     };
-    myReservedParkingList: any;
+    feedbackMsg = "";
+    feedbackRef:any;
+    myRes:any;
 
     constructor(private af: AngularFire, private appService: AppService, private route: ActivatedRoute) {
         this.slotLink = this.appService.getSlotObs();
-        this.userAuth = this.appService.getUserData();
+        this.feedbackRef = this.af.database.list("feedbacks")
+
     }
 
     ngOnInit() {
         if (this.route.snapshot.params['id']) {
             this.parkingId = this.route.snapshot.params['id'];
+            this.userAuth = this.appService.getUserData();
             this.parking$ = this.appService.findParkingById(this.parkingId);
             this.appService.findAllParkingSlod(this.parkingId)
                 .do(console.log)
                 .subscribe(slods => {
                     this.slods = slods;
                     this.showLoader = false
+                    debugger
+                    let myRes = [];
+                    let uAuth = this.userAuth;
+                    this.slods.forEach(function (s) {
+                        if(s.bookBy == uAuth.$key){
+                            console.log(s.bookBy);
+                            myRes.push(s)
+                        }
+                    });
+                    this.myRes = myRes
                 });
+
         }
-    }
+
+}
+
 
     selectSlot(slotObj, ind) {
+        debugger;
+        if(this.selectedSlot.slotInd){
+            let ind = this.selectedSlot.slotInd;
+            this.slods = this.slods.map(function (slod,ind) {
+                if(ind == ind){
+                    slod.selectable = false;
+                }
+                return slod;
+            })
+        }
         this.selectedSlotKey = slotObj.$key;
-        slotObj.selectable = "true";
+        slotObj.selectable = !slotObj.selectable;
+        debugger;
         if (slotObj.bookBy == "") {
             this.selectedSlot = {
                 slotInd: ind
@@ -67,7 +99,7 @@ export class ParkingDetailsComponent implements OnInit {
             console.log(this.parkingObj);
             this.slotLink.update(this.selectedSlotKey, {
                 bookBy: this.userAuth.$key,
-                parkingData: this.parkingObj.parkingDate,
+                parkingDate: this.parkingObj.parkingDate,
                 parkingHrs: this.parkingObj.parkingHrs,
                 startTime: this.parkingObj.startTime
             }).then(data => {
@@ -77,7 +109,7 @@ export class ParkingDetailsComponent implements OnInit {
                     startTime: "",
                     parkingHrs: "",
                 };
-                alert("parking saved successfully")
+                alert("update")
             }, err => {
                 alert(err.message)
             });
@@ -88,11 +120,13 @@ export class ParkingDetailsComponent implements OnInit {
         }
     }
 
+
+
     cancelReservation(slotObj) {
         console.log(slotObj);
-        this.slotLink.update(this.selectedSlotKey, {
-            bookedBy: "",
-            parkingData: "",
+        this.slotLink.update(slotObj.$key, {
+            bookBy: "",
+            parkingDate: "",
             parkingHrs: "",
             startTime: "",
 
@@ -102,6 +136,18 @@ export class ParkingDetailsComponent implements OnInit {
         }, err => {
             alert(err.message)
         });
+    }
+
+    sendFeedback(){
+        if(this.feedbackMsg != "") {
+            this.feedbackRef.push({message: this.feedbackMsg})
+                .then(data=>{
+                    this.feedbackMsg = "";
+                    alert("Thanks for the Feedback");
+                }, err=>{
+                    alert(err.message);
+                })
+        }
     }
 
 }
