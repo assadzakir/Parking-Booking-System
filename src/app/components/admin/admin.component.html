@@ -1,3 +1,101 @@
-<p>
-  admin works!
-</p>
+<!--<md-toolbar color="warn">-->
+  <!--<span *ngIf="af.auth && admin | async" routerLink="/admin"> Admin </span>-->
+<!--</md-toolbar>-->
+<!--<img md-card-image style="height: 300px" [src]=' (parking$ | async)?.imageUrl'>-->
+<md-progress-bar *ngIf="showLoader" color="primary" mode="query"></md-progress-bar>
+
+
+<md-card>
+  <md-tab-group>
+    <md-tab>
+      <template md-tab-label>
+        App Users
+      </template>
+
+      <md-card class="view-reservations-container">
+        <md-card-title> All Users </md-card-title>
+        <md-card-content>
+          <md-list>
+            <div *ngFor="let userInfo of allUsersList">
+              <md-list-item>
+                <h1 md-line> <b>Full Name :  {{userInfo.fullName}} </b> </h1>
+                <h1 md-line> <b>Email :  {{userInfo.email}} </b> </h1>
+                <h3 md-line> <b>Password : </b>{{userInfo.password}} </h3>
+                <h3 md-line> <b>Role : </b>{{userInfo.role}} </h3>
+                <button md-button md-raised-button color="warn" [disabled]="userInfo.role == 'admin'" (click)="deleteUser(userInfo)" style="position: absolute; right: 23px;"> Delete User</button>
+              </md-list-item>
+              <md-divider></md-divider>
+            </div>
+          </md-list>
+        </md-card-content>
+      </md-card>
+    </md-tab>
+    <md-tab>
+      <template md-tab-label>
+        ALL Slods
+      </template>
+
+      <md-card>
+        <md-card-title> ALL Slods</md-card-title>
+        <md-card-content>
+          <md-list>
+            <div *ngFor="let slotInfo of allSlots">
+              <md-list-item>
+                <h1 md-line> <b>Reservation Date :  {{slotInfo.parkingDate}} </b> </h1>
+                <h3 md-line> <b>Reservation Start Time: </b>{{slotInfo.startTime }} </h3>
+                <p md-line>
+                  <span> <b>Reservation Hours: </b> {{slotInfo.parkingHrs}} </span>
+                </p>
+              </md-list-item>
+              <md-divider></md-divider>
+            </div>
+          </md-list>
+        </md-card-content>
+      </md-card>
+    </md-tab>
+    <md-tab>
+      <template md-tab-label>
+        Booked Slods
+      </template>
+
+      <md-card>
+        <md-card-title>Booked Slods</md-card-title>
+        <md-card-content>
+          <md-list>
+            <div *ngFor="let slotInfo of bookedSlods">
+              <md-list-item>
+                <h1 md-line> <b>Reservation Date :  {{slotInfo.parkingDate}} </b> </h1>
+                <h3 md-line> <b>Reservation Start Time: </b>{{slotInfo.startTime }} </h3>
+                <p md-line>
+                  <span> <b>Reservation Hours: </b> {{slotInfo.parkingHrs}} </span>
+                </p>
+                <button md-button md-raised-button color="warn" (click)="cancelReservation(slotInfo)" style="position: absolute; right: 23px;"> Delete Booking</button>
+              </md-list-item>
+              <md-divider></md-divider>
+            </div>
+          </md-list>
+        </md-card-content>
+      </md-card>
+    </md-tab>
+    <md-tab>
+      <template md-tab-label>
+        Feedbacks
+      </template>
+
+      <md-card>
+        <md-card-title> View Feedback</md-card-title>
+        <md-card-content>
+          <md-list>
+            <div *ngFor="let feedObj of feedbackMsgList">
+              <md-list-item>
+                <h1 md-line> <b>Message : </b> {{feedObj.message}} </h1>
+              </md-list-item>
+              <md-divider></md-divider>
+            </div>
+          </md-list>
+        </md-card-content>
+      </md-card>
+    </md-tab>
+
+  </md-tab-group>
+</md-card>

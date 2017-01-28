@@ -46,7 +46,6 @@ export class ParkingDetailsComponent implements OnInit {
                 .subscribe(slods => {
                     this.slods = slods;
                     this.showLoader = false
-                    debugger
                     let myRes = [];
                     let uAuth = this.userAuth;
                     this.slods.forEach(function (s) {
@@ -76,7 +75,6 @@ export class ParkingDetailsComponent implements OnInit {
         }
         this.selectedSlotKey = slotObj.$key;
         slotObj.selectable = !slotObj.selectable;
-        debugger;
         if (slotObj.bookBy == "") {
             this.selectedSlot = {
                 slotInd: ind

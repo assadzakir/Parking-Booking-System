@@ -8,10 +8,22 @@ import {Router} from "@angular/router";
   templateUrl: './home.component.html'
 })
 export class HomeComponent implements OnInit {
-
-  constructor(public appService:AppService,private af: AngularFire, private router: Router) { }
+  admin = false;
+  userAuth:any;
+  constructor(public appService:AppService,private af: AngularFire, private router: Router) {
+    // this.userAuth = this.appService.getUserData();
+  }
 
   ngOnInit() {
+    // this.af.database.object("/users/"+this.userAuth.$key)
+    //     .subscribe(data=>{
+    //       if(data.role =="user"){
+    //         this.admin = false;
+    //       }
+    //       else{
+    //         this.admin = true;
+    //       }
+    //     });
   }
 
 

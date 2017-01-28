@@ -14,6 +14,7 @@ export class LoginComponent {
   userAuth;
   router;
   userService;
+  admin:boolean
   constructor(private af: AngularFire, private _router: Router, private _userService: AppService){
     this.afRef = af;
     this.router = _router;
@@ -30,12 +31,12 @@ export class LoginComponent {
                   this.userService.setUserData(data);
                   this.userAuth = data;
                   if(data.role =="user"){
-                    alert("Go to user");
+                      this.admin = false;
                     this.router.navigate(["/parking"]);
                   }
                   else{
-                    alert("Go to admin");
-                    // this.router.navigate(["/admin"])
+                      this.admin = true;
+                    this.router.navigate(["/admin"])
                   }
                 });
 

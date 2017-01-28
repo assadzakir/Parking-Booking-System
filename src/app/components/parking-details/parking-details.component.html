@@ -70,8 +70,8 @@
     <md-grid-list cols="4" style="background-color: #cfd8dc">
       <md-grid-tile *ngFor="let slod of slods let ind=index">
         <md-card [style.backgroundColor]="slod.bookBy || slod.selectable ? 'red':'white'">
-            <span  *ngIf="!slod.bookBy" (click)="selectSlot(slod,ind)"> <img style="height: 100px; width: 100px" src="/images/AvailableNow.png" alt=""></span>
-            <span *ngIf="slod.bookBy"> <img style="height: 100px; width: 100px" src="/images/Not_Available.png" alt=""></span>
+            <span  *ngIf="!slod.bookBy" (click)="selectSlot(slod,ind)"> <img style="height: 100px; width: 100px" src="https://el-cell.com/wp-content/uploads/2016/02/stoerer_now-available.png" alt=""></span>
+            <span *ngIf="slod.bookBy"> <img style="height: 100px; width: 100px" src="https://wwwhome.ewi.utwente.nl/~mostowskiwi/images/notavailable.png" alt=""></span>
             <!--<md-card-subtitle>Header subtitle</md-card-subtitle>-->
         </md-card>
       </md-grid-tile>
