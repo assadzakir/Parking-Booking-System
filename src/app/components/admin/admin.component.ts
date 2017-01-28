@@ -33,6 +33,7 @@ export class AdminComponent implements OnInit {
     this.allUsersListRef = this.af.database.list("/users")
     this.allUsersListRef.subscribe(users=>{
       this.allUsersList = users;
+      this.showLoader = false;
     });
     this.feedbackRef.subscribe(feeds=>{
       this.feedbackMsgList = feeds;
